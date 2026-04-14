@@ -7,9 +7,9 @@ body {
 }
 
 .container {
-  max-width: 880px;
+  max-width: 980px;
   margin: 0 auto;
-  padding: 80px 28px;
+  padding: 90px 32px;
 }
 
 /* ===== 导航 ===== */
@@ -48,7 +48,6 @@ h1 {
 .subtitle {
   font-size: 18px;
   color: #6e6e73;
-  max-width: 620px;
   margin-bottom: 32px;
 }
 
@@ -100,7 +99,7 @@ h1 {
 .card-desc {
   font-size: 14px;
   color: #424245;
-  max-width: 700px;
+  max-width: 820px;
   line-height: 1.65;
 }
 
