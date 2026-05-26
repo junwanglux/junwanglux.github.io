@@ -1,50 +1,837 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <title>XXX XXXX</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wang Jun 王俊</title>
+  <meta name="description" content="Wang Jun 王俊，PhD，IEEE Senior Member" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --panel: rgba(255, 255, 255, 0.82);
+      --panel-strong: rgba(255, 255, 255, 0.92);
+      --line: rgba(0, 0, 0, 0.08);
+      --line-strong: rgba(0, 0, 0, 0.12);
+      --text: #111111;
+      --subtext: #6b6b73;
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+      --radius: 28px;
+      --max-width: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.95), transparent 40%),
+        linear-gradient(180deg, #f8f8fa 0%, #f2f2f5 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 32px));
+      margin: 24px auto 44px;
+    }
+
+    .shell {
+      border-radius: 34px;
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(248,248,250,0.84));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--subtext);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tabs {
+      display: inline-flex;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(245,245,247,0.86);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      flex: 0 0 auto;
+    }
+
+    .tab {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: #5f5f6b;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .tab:hover { transform: translateY(-1px); }
+
+    .tab.active {
+      background: #ffffff;
+      color: #111111;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .section {
+      display: none;
+      animation: fadeIn 0.24s ease;
+    }
+
+    .section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      position: relative;
+      padding: 40px 44px 34px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(248,248,250,0.88) 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 198px;
+      aspect-ratio: 1 / 1;
+      border-radius: 30px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: linear-gradient(145deg, #e8edf3, #d8dee7);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+    }
+
+    .avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      background-image: url("jun.jpg");
+      background-size: cover;
+      background-position: center;
+     background-repeat: no-repeat;
+    }
+
+    .name {
+      margin-top: 20px;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .title {
+      margin-top: 10px;
+      color: var(--subtext);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .intro {
+      position: relative;
+      padding-left: 36px;
+    }
+
+    .intro::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.12), transparent);
+    }
+
+    .section-tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8a8a92;
+      font-weight: 700;
+    }
+
+    .intro h1 {
+      margin: 0 0 22px;
+      font-size: 38px;
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+      font-weight: 700;
+    }
+
+    .intro p {
+      margin: 0 0 16px;
+      color: #2a2a30;
+      font-size: 16px;
+      line-height: 1.92;
+      max-width: 980px;
+    }
+
+    .content-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--panel-strong);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 25px;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+    }
+
+    .card-subtitle {
+      margin-top: 8px;
+      color: var(--subtext);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .timeline {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .year-block {
+      padding-top: 14px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .year-block:first-child {
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .year-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .year-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #ffffff, #f2f2f5);
+      border: 1px solid rgba(0,0,0,0.08);
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.04);
+      flex: 0 0 auto;
+    }
+
+    .year-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.12), transparent);
+    }
+
+    .news-list,
+    .pub-list,
+    .blog-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .news-item,
+    .pub-item,
+    .blog-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,249,251,0.95));
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .news-item:hover,
+    .pub-item:hover,
+    .blog-item:hover {
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #9da3ae;
+      margin-top: 7px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px rgba(157,163,174,0.12);
+    }
+
+    .item-text {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #2c2c31;
+      word-break: break-word;
+    }
+
+    .publication-group {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .publication-group:first-of-type {
+      margin-top: 18px;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .publication-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .publication-title h3 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.35;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+    }
+
+    .badge {
+      font-size: 10px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.86);
+      color: #666670;
+      font-weight: 600;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .blog-grid {
+      margin-top: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .blog-card {
+      background: var(--panel-strong);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blog-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+    }
+
+    .blog-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .blog-year {
+      font-size: 12px;
+      color: #8a8a92;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .blog-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+    }
+
+    .blog-excerpt {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.88;
+      color: #2a2a30;
+      max-width: 74ch;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .blog-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(250,250,252,0.96);
+      color: #666670;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .footer {
+      padding: 16px 24px 24px;
+      color: #8d8d95;
+      font-size: 12px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.52);
+    }
+
+    @media (max-width: 980px) {
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .tabs {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .tab {
+        width: 50%;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 28px;
+      }
+
+      .intro {
+        padding-left: 0;
+      }
+
+      .intro::before {
+        display: none;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .blog-grid {
+        gap: 14px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: calc(100% - 16px);
+        margin-top: 8px;
+      }
+
+      .shell {
+        border-radius: 24px;
+      }
+
+      .hero,
+      .card,
+      .blog-card {
+        border-radius: 22px;
+      }
+
+      .hero {
+        padding: 20px;
+      }
+
+      .card,
+      .blog-card {
+        padding: 18px;
+      }
+
+      .name {
+        font-size: 30px;
+      }
+
+      .intro h1 {
+        font-size: 28px;
+      }
+
+      .intro p {
+        font-size: 15px;
+        line-height: 1.85;
+      }
+
+      .card h2 {
+        font-size: 22px;
+      }
+
+      .publication-title h3 {
+        font-size: 15px;
+      }
+
+      .blog-title {
+        font-size: 16px;
+      }
+
+      .item-text {
+        font-size: 11.5px;
+      }
+
+      .brand-title {
+        font-size: 14px;
+      }
+
+      .brand-subtitle {
+        font-size: 11px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-title">Wang Jun 王俊</div>
+          <div class="brand-subtitle">PhD · IEEE Senior Member · LLM / AI Agent / Embodied AI</div>
+        </div>
+        <div class="tabs" role="tablist" aria-label="页面切换">
+          <!-- <button class="tab active" id="tab-home" role="tab" aria-selected="true" aria-controls="home-section" data-target="home-section">about me</button>-->
+          <!-- <button class="tab" id="tab-blog" role="tab" aria-selected="false" aria-controls="blog-section" data-target="blog-section">Blog</button> -->
+        </div>
+      </header>
 
-<div class="container">
+      <section id="home-section" class="section active" role="tabpanel" aria-labelledby="tab-home">
+        <section class="hero">
+          <div class="hero-grid">
+            <div class="profile">
+              <div class="avatar" aria-label="profile"></div>
+              <div class="name">Wang Jun 王俊</div>
+              <div class="title">PhD<br />IEEE Senior Member</div>
+            </div>
 
-  <nav>
-    <div class="nav-left">About Me</div>
-    <div class="nav-right">
-      <a href="index.html">About</a>
-      <a href="research.html">Research</a>
-      <a href="blog.html">Blog</a>
+            <div class="intro">
+              <div class="section-tag">about me</div>
+              <!-- <h1>AI 系统 · 智能体 · 具身智能</h1> -->
+              <p>I work on AI systems and agent technologies, turning frontier AI into scalable, continuously evolving system capabilities，and driving their deployment across mobile devices and enterprise applications, including digital assistants, <a href="https://github.com/MadeAgents" style="text-decoration: underline;">GUI agents</a>, device-cloud AI platforms, and AI safety. Rather than emphasizing standalone model capability, I prioritize system-level capability in real-world environments: task understanding, planning and execution, risk management, and continuous learning.</p>
+              <p>Since the early large-model era, I have been steadily building and advancing AI agent technologies. Our work has been validated through both model research and production-deployment across tens of millions of devices, including an on-device tool-use agent model officially featured by <a href="https://ai.google.dev/edge/mediapipe/solutions/genai/function_calling/android" style="text-decoration: underline;">Google AI Edge</a>. Currently, my work centers on <span style="color: blue;">fully autonomous AI agent systems</span>, including environment understanding, long-term memory, task planning and execution, and continuous self-evolution, while exploring heir evolution across mobile devices, embodied AI, and AI-native organizational collaboration.</p>
+            <p>We are actively hiring researchers, engineers, and research interns interested in LLM and autonomous agents. Feel free to reach out， junwang.lu AT gmail dot  com</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <div class="card">
+            <div class="section-tag">News</div>
+            <div class="timeline">
+              <div class="year-block">
+                <div class="year-title"><div class="year-badge">2026</div><div class="year-line"></div></div>
+                <ul class="news-list">
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[May 2026] three paper got accepted by KDD'2026</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[May 2026] one paper got accepted by ICML'2026</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Apr. 2026] one paper got accepted by TIFS</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Apr. 2026] five paper got accepted by ACL'2026</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Jan. 2026] two paper got accepted by ICLR'2026</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Jan. 2026] five paper got accepted by WWW'2026</span></li>
+                </ul>
+              </div>
+
+              <div class="year-block">
+                <div class="year-title"><div class="year-badge">2025</div><div class="year-line"></div></div>
+                <ul class="news-list">
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Nov. 2025] one paper got accepted by AAAI'2026</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Sept. 2025] one paper got accepted by NeurIPS'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Sept. 2025] three paper got accepted by EMNLP'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Aug. 2025] one paper got accepted by TOIS</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Jun. 2025] two paper got accepted by DAC'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Apr. 2025] three paper got accepted by SIGIR'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Apr. 2025] two paper got accepted by ACL'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Mar. 2025] one paper got accepted by ICDE'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Jan. 2025] one paper got accepted by WWW'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Jan. 2025] one paper got accepted by ICLR'2025</span></li>
+                </ul>
+              </div>
+
+              <div class="year-block">
+                <div class="year-title"><div class="year-badge">2024</div><div class="year-line"></div></div>
+                <ul class="news-list">
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Oct. 2024] two paper got accepted by AAAI'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Oct. 2024] one paper got accepted by WSDM'2025</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Sept. 2024] two paper got accepted by NeurIPS'2024</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Aug. 2024] one paper got accepted by TOIS</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Jul. 2024] two paper got accepted by CIKM'2024</span></li>
+                  <li class="news-item"><span class="dot"></span><span class="item-text">[Apr. 2024] two paper got accepted by IJCAI'2024</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Recent Selected Publications</h2>
+            <div class="publication-group">
+              <div class="publication-title">
+                <h3>LLM & AI Agent</h3>
+                <div class="badge">*</div>
+              </div>
+              <ul class="pub-list">
+                <li class="pub-item"><span class="dot"></span><span class="item-text">Wang J, Zhou J, Zhang W, Wang T, Liu W, Zhang Z, Lou X, Zhang W, DENG H, Wang J. <a href="https://arxiv.org/abs/2601.07262" style="text-decoration: underline;">ColorBrowserAgent: Complex Long-Horizon Browser Agent with Adaptive Knowledge Evolution.</a> ACL2026.</span></li>
+                 <li class="pub-item"><span class="dot"></span><span class="item-text">Song Y, Huang H, Lin Q, Zhao Y, Qu X, Wang J, Lou X, Liu W, Zhang Z, Wang J, Wang Z. <a href="https://github.com/MadeAgents/ColorBench/tree/main" style="text-decoration: underline;">Colorbench: Benchmarking mobile agents with graph-structured framework for complex long-horizon tasks.</a>  WWW2026.</span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text">Li N, Qu X, Zhou J, Wang J, Wen M, Du K, Lou X, Peng Q, Wang  J,  Zhang W. <a href="https://github.com/MadeAgents/mobile-use" style="text-decoration: underline;">MobileUse: A Hierarchical Reflection-Driven {GUI} Agent for Autonomous Mobile Operation.</a> NeurIPS2025.</span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text">Lin Q, Wen M, Peng Q, Nie G, Liao J, Mo X, Zhou J, Cheng C, Zhao Y, Zhang W. Wang J. <a href="https://github.com/MadeAgents/Hammer" style="text-decoration: underline;">Robust function-calling for on-device language model via function masking.</a> ICLR2025.</span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text">Peng D, Fu Z, Wang J. <a href="https://github.com/MadeAgents/Hammer" style="text-decoration: underline;">PocketLLM: Enabling on-device fine-tuning for personalized LLMs.</a> workshp@ACL2024.
+</span></li>
+              </ul>
+            </div>
+
+            <div class="publication-group">
+              <div class="publication-title">
+                <h3>AI safety & privacy</h3>
+                <div class="badge">*</div>
+              </div>
+              <ul class="pub-list">
+                <li class="pub-item"><span class="dot"></span><span class="item-text">N, Zhang J, He P, Zhou C, Wang J, Fu Z, Du T, Wang Z, Ji S. <a href="https://arxiv.org/abs/2601.22485" style="text-decoration: underline;">FraudShield: Knowledge Graph Empowered Defense for LLMs against Fraud Attacks.</a> WWW2026.</span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text">Xu N, Zhang J, Li C, An H, Zhou C, Wang J, Xu B, Li Y, Du T, Ji S. <a href="https://arxiv.org/abs/2512.21871" style="text-decoration: underline;">Bridging the Copyright Gap: Do Large Vision-Language Models Recognize and Respect Copyrighted Content?. </a> AAAI2026.</span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text">Liang J, Zhang L, Qu X, Wang J. <a href="https://ieeexplore.ieee.org/document/11113012" style="text-decoration: underline;">FedEcover: Fast and Stable Converging Model-Heterogeneous Federated Learning with Efficient-Coverage Submodel Extraction.</a> ICDE2025</span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text">Zhang Z, Bai W, Li Y, Meng MH, Wang K, Shi L, Li L, Wang J, Wang H. <a href="https://ieeexplore.ieee.org/document/11113012" style="text-decoration: underline;">GlitchProber: Advancing Effective Detection and Mitigation of Glitch Tokens in Large Language Models.</a> ASE2024</span></li>
+                 <li class="pub-item"><span class="dot"></span><span class="item-text">Wu W, Wang J, Zhang Y, Liu Z, Zhou L, Lin X. <a href="https://ieeexplore.ieee.org/document/10167664" style="text-decoration: underline;">Vpip: Values packing in paillier for communication efficient oblivious linear computations. IEEE Transactions on Information Forensics and Security.</a> TIFS</span></li>
+              </ul>
+            </div>
+              <h3>  </h3>
+            <h2>Media & Talks</h2>
+            <div class="publication-group">
+              <div class="publication-title">
+              </div>
+              <ul class="pub-list">
+                <li class="pub-item"><span class="dot"></span><span class="item-text"><a href="https://mp.weixin.qq.com/s/18OetWPdHNgy-bIHZ0YW5Q" style="text-decoration: underline;">智能体也要有App Store？上交大 × OPPO构建海量智能体生态</a></span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text"><a href="https://mp.weixin.qq.com/s/QTYROZutZbiqBJO9f6L9Dw" style="text-decoration: underline;">从工具到分身：智能体的进化与落地 | ADL167《智能体》</a></span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text"><a href="https://mp.weixin.qq.com/s/QZz5SM8ZwyJ63qp7iZkTPg" style="text-decoration: underline;">TopoClaw：你的全场景 AI 数字助手  | NICE173期 </a></span></li>
+                 <li class="pub-item"><span class="dot"></span><span class="item-text"><a href="https://mp.weixin.qq.com/s/YsjjaTdDNWsoLXhr7mGOpQ" style="text-decoration: underline;">哪个模型擅长调用工具？这个7B模型跻身工具调用综合榜单第一 </a></span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text"><a href="https://ai.google.dev/edge/mediapipe/solutions/genai/function_calling/android" style="text-decoration: underline;">AI Edge Function Calling guide for Android</a></span></li>
+                <li class="pub-item"><span class="dot"></span><span class="item-text"><a href="https://mp.weixin.qq.com/s/Dl6-jowGAM1AgMecNeRAkQ" style="text-decoration: underline;">CNCC | 面向个人助手的智能体技术</a></span></li>
+                 <li class="pub-item"><span class="dot"></span><span class="item-text"><a href="qq.com/s/mkrFZXp5Qx-wvsCjlgs2tg" style="text-decoration: underline;">CNCC | 异构多源的数据互融智能服务</a></span></li>
+
+              </ul>
+            </div>
+
+          </div>
+        </section>
+      </section>
+
+      <section id="blog-section" class="section" role="tabpanel" aria-labelledby="tab-blog">
+        <section class="hero">
+          <div class="section-tag">Blog</div>
+        </section>
+
+        <section class="content-grid" style="grid-template-columns: 1fr;">
+          <div class="blog-grid">
+            <article class="blog-card">
+              <div class="blog-meta-row">
+                <div class="blog-year">2026 ·  01</div>
+                <span class="badge">AI Runtime</span>
+              </div>
+              <h3 class="blog-title">为什么 AI 系统的竞争点不只是模型，而是运行时</h3>
+              <div class="blog-excerpt">在很多讨论里，模型能力会被放在最显眼的位置，但一旦进入真实场景，真正决定体验和价值的往往不是单点能力，而是系统级运行时：它是否能稳定接收任务、理解上下文、调度工具、处理异常、记住历史并持续优化。对于终端、企业和机器人场景，模型只是起点，运行时才是将智能变成生产力的关键层。一个足够好的运行时，决定了智能能力能否跨设备、跨场景、跨周期持续生长；而一个缺乏运行时视角的系统，即使模型看起来很强，也很难真正进入可规模化部署。</div>
+              <div class="blog-tags">
+                <span class="chip">系统视角</span>
+                <span class="chip">智能体</span>
+              </div>
+            </article>
+
+            <article class="blog-card">
+              <div class="blog-meta-row">
+                <div class="blog-year">2025 ·  02</div>
+                <span class="badge">闭环能力</span>
+              </div>
+              <h3 class="blog-title">从工具智能体走向全自主决策：差的不是功能，而是闭环</h3>
+              <div class="blog-excerpt">工具调用本身并不稀缺，真正稀缺的是闭环能力。一个系统要从“会用工具”进化到“能自主完成任务”，中间隔着感知、规划、执行、反馈、恢复和再规划。很多系统停留在演示阶段，原因不是缺少某个模块，而是缺少把这些模块组织成稳定闭环的能力。尤其在开放环境中，任务前提会变化，用户意图会漂移，外部工具也会失败，因此系统需要具备足够强的状态管理、错误恢复和长期执行能力。只有这样，智能体才不是一次性脚本，而是持续工作的执行者。</div>
+              <div class="blog-tags">
+                <span class="chip">自主决策</span>
+                <span class="chip">任务闭环</span>
+              </div>
+            </article>
+
+            <article class="blog-card">
+              <div class="blog-meta-row">
+                <div class="blog-year">2024 · 思考 03</div>
+                <span class="badge">可治理性</span>
+              </div>
+              <h3 class="blog-title">为什么我更关心 AI 在复杂环境中的可治理性</h3>
+              <div class="blog-excerpt">当 AI 从研究环境进入真实业务，它面对的不只是准确率问题，还有权限、边界、责任、可审计性和可回滚性。很多能力在实验室里很好看，但一旦进入企业或终端，就会因为缺少治理结构而变得不可用。可治理性并不是保守，而是让系统拥有可持续扩展的前提。它意味着系统知道自己在做什么、为什么做、哪里可以做、哪里不能做，以及当出错时如何收敛到安全状态。对我来说，这种能力不是附加项，而是 AI 真正规模化落地的基础。</div>
+              <div class="blog-tags">
+                <span class="chip">治理</span>
+                <span class="chip">可信 AI</span>
+              </div>
+            </article>
+
+            <article class="blog-card">
+              <div class="blog-meta-row">
+                <div class="blog-year">2023 · 思考 04</div>
+                <span class="badge">具身智能</span>
+              </div>
+              <h3 class="blog-title">具身智能的关键不是“像人”，而是“能完成任务”</h3>
+              <div class="blog-excerpt">对于具身智能，我更看重它是否真的能在现实世界中完成连续任务，而不是单纯像人一样运动或表达。家庭场景中的任务通常是开放的、长链路的、充满干扰的，这要求机器人不仅具备感知和运动能力，还要有计划、记忆、协调和自我修正能力。机器人如果没有稳健的任务组织能力，就很难在真实家庭中进入可用状态。因此，具身智能与智能体技术的结合，不只是技术叠加，而是面向真实任务闭环的一次系统重构。</div>
+              <div class="blog-tags">
+                <span class="chip">具身智能</span>
+                <span class="chip">家庭机器人</span>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <footer class="footer">© Wang Jun · PhD · Know me here</footer>
     </div>
-  </nav>
-
-  <h1 style="font-size:42px; margin-bottom:4px;">XXX XXXX</h1>
-<div style="font-size:16px; color:#6e6e73; margin-bottom:22px;">
-  <!-- AI Agent · Embodied Intelligence -->
-</div>
-  <p class="subtitle">
-    Building real-world intelligent systems and next-generation agent infrastructure at scale.
-  </p>
-
-  <div class="tags">
-    <div class="tag">AI safety & trustworthy systems</div>
-    <div class="tag">Large-scale intelligent agents</div>
-    <div class="tag">Embodied intelligence systems</div>
   </div>
 
-  <div class="section">
-    <div class="card">
-      <div class="card-desc">
-  <!-- PhD, Head of Data & Intelligence and Robotics Exploration Team at XXXX. I focus on building large-scale intelligent systems and next-generation AI infrastructure for real-world environments.
-My work spans AI safety, large-scale intelligent agents, and embodied intelligence. I have led the deployment and commercialization of these technologies across billion-scale devices and internet services, and developed multi-form embodied intelligence prototype systems with real-world validation.
-I am deeply committed to advancing fully autonomous agents and complex task intelligence systems, bridging the gap between algorithmic innovation and large-scale engineering deployment. I have published over 60 papers in top-tier conferences.
-     -->
-      </div>
-    </div>
-  </div>
+  <script>
+    (function () {
+      const tabs = Array.from(document.querySelectorAll('.tab'));
+      const sections = Array.from(document.querySelectorAll('.section'));
 
-</div>
+      function activate(targetId) {
+        tabs.forEach((tab) => {
+          const active = tab.dataset.target === targetId;
+          tab.classList.toggle('active', active);
+          tab.setAttribute('aria-selected', String(active));
+        });
 
+        sections.forEach((section) => {
+          section.classList.toggle('active', section.id === targetId);
+        });
+
+        const hash = targetId === 'blog-section' ? '#blog' : '#home';
+        history.replaceState(null, '', hash);
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => activate(tab.dataset.target));
+      });
+
+      if (location.hash === '#blog') {
+        activate('blog-section');
+      } else {
+        activate('home-section');
+      }
+    })();
+  </script>
 </body>
 </html>
